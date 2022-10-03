@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 type ProductType = {
   id: number;
   name: string;
   explanation: string;
   price: number;
-}
+};
 
 function ProductDetailPage() {
   const { productId } = useParams<{ productId: string }>();
@@ -16,7 +16,7 @@ function ProductDetailPage() {
     fetch(`/product/${productId}`)
       .then((response) => response.json())
       .then((data) => setProduct(data.product));
-  }, []);
+  }, [productId]);
 
   return (
     <div>
