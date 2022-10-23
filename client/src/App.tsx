@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { ProductProvider } from "./contexts/ProductContext";
+import { ProductProvider } from "./components/product/ProductContext";
 import MainPage from "./pages/MainPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 

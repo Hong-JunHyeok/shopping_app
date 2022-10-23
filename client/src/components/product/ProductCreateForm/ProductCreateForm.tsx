@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useProductContext } from "../../../contexts/ProductContext";
+import { useProductContext } from "../ProductContext";
 import { ProductType } from "../Product.types";
 
 const ProductCreateForm = () => {
