@@ -1,24 +1,46 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-interface ProductType {
-  id: number;
-  name: string;
-  explanation: string;
-  price: number;
-}
+import { ProductType } from "../Product.types";
+import { useProductContext } from "../ProductContext";
 
 interface Props {
   product: ProductType;
-  onDelete: (id: number) => void;
-  onUpdate: (product: ProductType) => void;
 }
 
-const ProductItem = ({ product, onDelete, onUpdate }: Props) => {
+const ProductItem = ({ product }: Props) => {
+  const [products, setProducts] = useProductContext();
   const [isEditMode, setIsEditMode] = useState(false);
   const [editName, setEditName] = useState(product.name);
   const [editExplanation, setEditExplanation] = useState(product.explanation);
   const [editPrice, setEditPrice] = useState(product.price);
+
+  const handleDelete = (id: number) => {
+    fetch(`/product/${id}`, {
+      method: "DELETE",
+    }).then((response) => {
+      if (response.ok) {
+        setProducts(products.filter((product) => product.id !== id));
+      }
+    });
+  };
+
+  const handleUpdate = (updateProduct: ProductType) => {
+    fetch(`/product/${updateProduct.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateProduct),
+    }).then((response) => {
+      if (response.ok) {
+        setProducts(
+          products.map((product) =>
+            product.id === updateProduct.id ? updateProduct : product
+          )
+        );
+      }
+    });
+  };
 
   return (
     <div>
@@ -29,7 +51,7 @@ const ProductItem = ({ product, onDelete, onUpdate }: Props) => {
       <div>{product.price}</div>
       <div>{product.explanation}</div>
 
-      <button type="button" onClick={() => onDelete(product.id)}>
+      <button type="button" onClick={() => handleDelete(product.id)}>
         삭제하기
       </button>
 
@@ -41,7 +63,7 @@ const ProductItem = ({ product, onDelete, onUpdate }: Props) => {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            onUpdate({
+            handleUpdate({
               id: product.id,
               name: editName,
               price: editPrice,

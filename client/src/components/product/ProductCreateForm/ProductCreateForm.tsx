@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useProductContext } from "../ProductContext";
 import { ProductType } from "../Product.types";
+import ProductThumbnailUploader from "../ProductThumbnailUploader";
 
 const ProductCreateForm = () => {
   const [, setProducts] = useProductContext();
   const [name, setName] = useState("");
   const [explanation, setExplanation] = useState("");
   const [price, setPrice] = useState(0);
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
 
   const handleCreate = (newProduct: Omit<ProductType, "id">) => {
     fetch("/product", {
@@ -21,6 +23,14 @@ const ProductCreateForm = () => {
         setProducts((prev) => [...prev, data.product]);
       });
   };
+
+  const handleClearThumbnail = () => {
+    setThumbnail(null);
+  };
+
+  useEffect(() => {
+    console.log(thumbnail);
+  }, [thumbnail]);
 
   return (
     <form
@@ -47,6 +57,13 @@ const ProductCreateForm = () => {
         onChange={(event) => setPrice(parseInt(event.target.value, 10))}
         type="number"
         placeholder="상품 가격"
+      />
+      <ProductThumbnailUploader
+        value={thumbnail}
+        onChange={(file) => setThumbnail(file)}
+        onClickThumbnail={handleClearThumbnail}
+        onUpload={() => console.log("성공")}
+        onError={() => console.error("에러")}
       />
       <input type="submit" value="상품 만들기" />
     </form>
