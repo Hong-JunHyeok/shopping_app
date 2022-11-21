@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const FormContainer = styled.form`
-  position: absolute;
+  position: fixed;
   bottom: 7rem;
   right: 1rem;
 

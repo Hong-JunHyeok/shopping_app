@@ -50,6 +50,7 @@ const ProductItem = ({ product }: Props) => {
       </div>
       <div>{product.price}</div>
       <div>{product.explanation}</div>
+      {product?.thumbnail && <img src={product.thumbnail} alt={product.explanation} />}
 
       <button type="button" onClick={() => handleDelete(product.id)}>
         삭제하기

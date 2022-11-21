@@ -1,11 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 
-type ProductType = {
-  id: number;
-  name: string;
-  explanation: string;
-  price: number;
-};
+import { ProductType } from './Product.types';
 
 type ProductContextType = [
   ProductType[],

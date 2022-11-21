@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import Loading from "../../shared/Loading";
+
 import { useProductContext } from "../ProductContext";
+
+import Loading from "../../shared/Loading";
 import ProductItem from "../ProductItem";
+
+import * as styles from './ProductList.styles';
 
 const ProductList = () => {
   const [products, setProducts] = useProductContext();
@@ -21,11 +25,11 @@ const ProductList = () => {
   if (loading) return <Loading />;
 
   return (
-    <ul>
+    <styles.ListContainer>
       {products.map((product) => (
         <ProductItem key={product.id} product={product} />
       ))}
-    </ul>
+    </styles.ListContainer>
   );
 };
 

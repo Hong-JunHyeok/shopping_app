@@ -12,19 +12,51 @@ const ProductCreateForm = () => {
   const [price, setPrice] = useState(0);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
 
-  const handleCreate = (newProduct: Omit<ProductType, "id">) => {
-    fetch("/product", {
+  const uploadThumbnailRequest = (productId: number, thumbnail: File) => {
+    const formData = new FormData();
+    formData.append("thumbnail", thumbnail);
+    return fetch(`/product/thumbnail/${productId}`, {
+      method: "PATCH",
+      body: formData,
+    });
+  };
+  
+  const createProductRequest = (newProduct: Omit<ProductType, "id">) => {
+    return fetch("/product", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newProduct),
+    });
+  };
+ 
+
+  const handleCreateProduct = (event: React.FormEvent) => {
+    event.preventDefault();
+    createProductRequest({
+      name,
+      explanation,
+      price,
     })
       .then((response) => response.json())
       .then((data) => {
-        setProducts((prev) => [...prev, data.product]);
+        const product = data.product as ProductType;
+        if (thumbnail) {
+          return uploadThumbnailRequest(product.id, thumbnail).then(
+            (response) => response.json()
+          );
+        } else {
+          return Promise.resolve(data);
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        const newProduct = data.product as ProductType;
+        setProducts((prev) => [newProduct, ...prev]);
       });
   };
+ 
 
   const handleClearThumbnail = () => {
     setThumbnail(null);
@@ -36,14 +68,7 @@ const ProductCreateForm = () => {
 
   return (
     <styles.FormContainer
-      onSubmit={(event) => {
-        event.preventDefault();
-        handleCreate({
-          name,
-          explanation,
-          price,
-        });
-      }}
+      onSubmit={handleCreateProduct}
     >
       <input
         onChange={(event) => setName(event.target.value)}
