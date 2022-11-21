@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useProductContext } from "../ProductContext";
-import { ProductType } from "../Product.types";
 import ProductThumbnailUploader from "../ProductThumbnailUploader";
+
+import * as styles from './ProductCreateForm.styles';
+import { ProductType } from "../Product.types";
 
 const ProductCreateForm = () => {
   const [, setProducts] = useProductContext();
@@ -33,7 +35,7 @@ const ProductCreateForm = () => {
   }, [thumbnail]);
 
   return (
-    <form
+    <styles.FormContainer
       onSubmit={(event) => {
         event.preventDefault();
         handleCreate({
@@ -66,7 +68,7 @@ const ProductCreateForm = () => {
         onError={() => console.error("에러")}
       />
       <input type="submit" value="상품 만들기" />
-    </form>
+    </styles.FormContainer>
   );
 };
 
