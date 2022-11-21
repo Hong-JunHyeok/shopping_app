@@ -104,6 +104,7 @@ const updateThumbnailController = (
   return res.json({
     code: 201,
     message: "상품 썹네일 업로드 성공",
+    product: products[productIndex],
   });
 };
 
