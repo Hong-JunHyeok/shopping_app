@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { ProductType } from "../Product.types";
 import { useProductContext } from "../ProductContext";
 
+import * as styles from './ProductItem.styles';
+
 interface Props {
   product: ProductType;
 }
@@ -43,25 +45,47 @@ const ProductItem = ({ product }: Props) => {
   };
 
   return (
-    <div>
-      <div>{product.id}</div>
-      <div>
-        <Link to={`/${product.id}`}>{product.name}</Link>
+    <styles.ProductItemContainer
+      isEdit={isEditMode}
+    >
+      <Link 
+        className="name"
+        to={`/${product.id}`}
+      >
+        {product.name}
+      </Link>
+      
+      <span className="price">{product.price}</span>
+      {product?.thumbnail && 
+        <img 
+          className="thumbnail"
+          src={product.thumbnail} 
+          alt={product.explanation} 
+        />
+      }
+      <p className="explanation">
+        {product.explanation}
+      </p>
+
+
+      <div className="button-group">
+        <button 
+          type="button" 
+          onClick={() => handleDelete(product.id)}
+        >
+          삭제하기
+        </button>
+
+        <button 
+          type="button" 
+          onClick={() => setIsEditMode((prev) => !prev)}
+        >
+          수정하기
+        </button>
       </div>
-      <div>{product.price}</div>
-      <div>{product.explanation}</div>
-      {product?.thumbnail && <img src={product.thumbnail} alt={product.explanation} />}
-
-      <button type="button" onClick={() => handleDelete(product.id)}>
-        삭제하기
-      </button>
-
-      <button type="button" onClick={() => setIsEditMode((prev) => !prev)}>
-        수정하기
-      </button>
 
       {isEditMode && (
-        <form
+        <styles.ProductEditContainer
           onSubmit={(event) => {
             event.preventDefault();
             handleUpdate({
@@ -91,9 +115,9 @@ const ProductItem = ({ product }: Props) => {
             onChange={(event) => setEditPrice(parseInt(event.target.value, 10))}
           />
           <input type="submit" value="상품 수정하기" />
-        </form>
+        </styles.ProductEditContainer>
       )}
-    </div>
+    </styles.ProductItemContainer>
   );
 };
 
