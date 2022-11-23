@@ -17,9 +17,11 @@ const ProductList = () => {
     fetch("/product")
       .then((response) => response.json())
       .then((data) => {
-        setLoading(false);
         setProducts(data.products);
-      });
+      }).finally(() => {
+        // TODO: 책에 이 부분 반영하기
+        setLoading(false);
+      })
   }, []);
 
   if (loading) return <Loading />;
