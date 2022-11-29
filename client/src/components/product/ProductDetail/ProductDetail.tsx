@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 import Loading from "../../shared/Loading";
 import * as styles from './ProductDetail.styles';
@@ -10,13 +10,17 @@ interface Props {
 }
 
 const ProductDetail = ({ productId }: Props) => {
-  const navigate = useNavigate();
+  const [cookies, setCookies] = useCookies(['shopping_basket']);
+
+  const shoppingBasketItems = cookies.shopping_basket as ProductType[];
 
   const [product, setProduct] = useState<ProductType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handlePurchaseButtonClick = () => {
-    navigate(`/purchase/${product?.id}`);
+  const handleShoppingBasketAdd = () => {
+    const nextValue = shoppingBasketItems ? [...shoppingBasketItems, product] : [product];
+
+    setCookies('shopping_basket', nextValue);
   }
 
   useEffect(() => {
@@ -44,9 +48,11 @@ const ProductDetail = ({ productId }: Props) => {
         <span className="price">{product?.price}</span>
         <p className="explanation">{product?.explanation}</p>
 
-        <styles.GoToProductPurchaseButton onClick={handlePurchaseButtonClick}>
-          구매하기
-        </styles.GoToProductPurchaseButton>
+        <styles.ShoppingBasketAddButton 
+          onClick={handleShoppingBasketAdd}
+        >
+          장바구니 담기
+        </styles.ShoppingBasketAddButton>
       </div>
     </styles.ProductDetailContainer>
   );

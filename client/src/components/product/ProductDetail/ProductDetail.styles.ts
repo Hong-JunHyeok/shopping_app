@@ -49,7 +49,7 @@ export const ProductDetailContainer = styled.div`
   }
 `;
 
-export const GoToProductPurchaseButton = styled.button`
+export const ShoppingBasketAddButton = styled.button`
   width: 100%;
   padding: 1rem;
   border-radius: 5px;

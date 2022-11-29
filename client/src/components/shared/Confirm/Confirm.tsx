@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "../Modal";
 
 import * as styles from './Confirm.styles';
@@ -18,18 +18,15 @@ const Confirm = ({
     onConfirm,
     onCancel
 }: Props) => {
-    const [isModalOpen, setIsModalOpen] = useState(open);
-
     const handleConfirmButton = () => {
         if (onConfirm) onConfirm();
     }
 
     const handleCancelButton = () => {
         if (onCancel) onCancel();
-        setIsModalOpen(false);
     }
 
-    if (!isModalOpen) return null;
+    if (!open) return null;
 
     return (
         <Modal>
