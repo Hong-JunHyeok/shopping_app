@@ -50,7 +50,7 @@ const ProductItem = ({ product }: Props) => {
     >
       <Link 
         className="name"
-        to={`/${product.id}`}
+        to={`/product/${product.id}`}
       >
         {product.name}
       </Link>
