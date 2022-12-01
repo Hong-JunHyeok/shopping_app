@@ -6,15 +6,19 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import ProductPurchasePage from "./pages/ProductPurchasePage";
 import ShoppingBasketPage from './pages/ShoppingBasketPage';
 
+import Layout from "./components/shared/Layout";
+
 function App() {
   return (
     <ProductProvider>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/:productId" element={<ProductDetailPage />} />
-        <Route path="/purchase" element={<ProductPurchasePage />} />
-        <Route path="/shopping-basket" element={<ShoppingBasketPage />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/:productId" element={<ProductDetailPage />} />
+          <Route path="/purchase" element={<ProductPurchasePage />} />
+          <Route path="/shopping-basket" element={<ShoppingBasketPage />} />
+        </Routes>
+      </Layout>
     </ProductProvider>
   );
 }
