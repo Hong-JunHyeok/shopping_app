@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useCookies } from 'react-cookie';
+import { useNavigate } from "react-router-dom";
 
 import Loading from "../../shared/Loading";
 import Confirm from '../../shared/Confirm';
+
+import useShoppingBasket from '../../../hooks/useShoppingBasket';
+
 import * as styles from './ProductDetail.styles';
 import { ProductType } from "../Product.types";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   productId: string;
@@ -13,18 +15,17 @@ interface Props {
 
 const ProductDetail = ({ productId }: Props) => {
   const navigate = useNavigate();
-  const [cookies, setCookies] = useCookies(['shopping_basket']);
-
-  const shoppingBasketItems = cookies.shopping_basket as ProductType[];
+  const { addShoppingBasket } = useShoppingBasket();
 
   const [product, setProduct] = useState<ProductType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleShoppingBasketAdd = () => {
-    const nextValue = shoppingBasketItems ? [...shoppingBasketItems, product] : [product];
+    if (product) {
+      addShoppingBasket(product);
+    }
 
-    setCookies('shopping_basket', nextValue);
     setIsModalOpen(true);
   }
 

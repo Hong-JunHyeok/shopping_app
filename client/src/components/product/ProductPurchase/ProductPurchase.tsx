@@ -1,9 +1,6 @@
-import {  } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-
 import * as styles from './ProductPurchase.styles';
 
-import { ProductType } from "../Product.types";
+import useShoppingBasket from '../../../hooks/useShoppingBasket';
 
 interface Props {
   onClickPurchaseButton: () => void;
@@ -12,17 +9,16 @@ interface Props {
 const ProductPurchase = ({ 
   onClickPurchaseButton
 }: Props) => {
-  const [cookies] = useCookies(['shopping_basket']);
-  const shoppingBasketItems = cookies.shopping_basket as ProductType[] ?? [];
+  const { shoppingBasket } = useShoppingBasket();
   
-  const purchaseAmount = shoppingBasketItems.reduce((prev, cur) => prev + cur.price, 0);
+  const purchaseAmount = shoppingBasket.reduce((prev, cur) => prev + cur.price, 0);
 
   return (
     <>
       <styles.ProductPurchaseContainer>
         <h2 className="purchase-title">구매하시기 전 확인해보세요.</h2>
 
-        {shoppingBasketItems.map((product) => (
+        {shoppingBasket.map((product) => (
           <div className="product-info">
             {product?.thumbnail && 
               <img 

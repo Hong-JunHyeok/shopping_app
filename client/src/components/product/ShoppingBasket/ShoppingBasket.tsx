@@ -1,14 +1,12 @@
-import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+
+import useShoppingBasket from '../../../hooks/useShoppingBasket';
 
 import * as styles from './ShoppingBasket.styles';
-import { ProductType } from '../Product.types';
-import { useNavigate } from 'react-router-dom';
 
 const ShoppingBasket = () => {
     const navigate = useNavigate();
-    const [cookies] = useCookies(['shopping_basket']);
-
-    const shoppingBasketItems = cookies.shopping_basket as ProductType[];
+    const { shoppingBasket } = useShoppingBasket();
 
     const handleClickGoToPurchaseButton = () => {
         navigate('/purchase')
@@ -18,12 +16,12 @@ const ShoppingBasket = () => {
         <styles.ShoppingBasketContainer>
             <h3 className="shopping-basket-title">나의 장바구니</h3>
 
-            {!shoppingBasketItems || shoppingBasketItems.length === 0
+            {!shoppingBasket || shoppingBasket.length === 0
                 ? <h3>장바구니에 담은 아이템이 없습니다.</h3>
                 : (
                 <>
                     <styles.ShoppingBasketList>
-                        {shoppingBasketItems.map((item) => 
+                        {shoppingBasket.map((item) => 
                             <styles.ShoppingBasketItem key={item.id}>
                                 {item?.thumbnail && 
                                     <img 
