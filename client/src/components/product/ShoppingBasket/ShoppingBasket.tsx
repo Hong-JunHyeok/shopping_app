@@ -1,16 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 
 import useShoppingBasket from '../../../hooks/useShoppingBasket';
+import Loading from '../../shared/Loading';
 
 import * as styles from './ShoppingBasket.styles';
 
 const ShoppingBasket = () => {
     const navigate = useNavigate();
-    const { shoppingBasket } = useShoppingBasket();
+    const { isLoading, shoppingBasket } = useShoppingBasket();
 
     const handleClickGoToPurchaseButton = () => {
         navigate('/purchase')
     }
+
+    if (isLoading) return <Loading />
 
     return (
         <styles.ShoppingBasketContainer>
@@ -22,19 +25,19 @@ const ShoppingBasket = () => {
                 <>
                     <styles.ShoppingBasketList>
                         {shoppingBasket.map((item) => 
-                            <styles.ShoppingBasketItem key={item.id}>
+                            <styles.ShoppingBasketItem key={item?.id}>
                                 {item?.thumbnail && 
                                     <img 
                                         className="thumbnail"
-                                        src={item.thumbnail} 
-                                        alt={item.explanation} 
+                                        src={item?.thumbnail} 
+                                        alt={item?.explanation} 
                                     />
                                 }
 
-                                <h3 className='name'>{item.name}</h3>
-                                <span className='price'>{item.price}</span>
+                                <h3 className='name'>{item?.name}</h3>
+                                <span className='price'>{item?.price}</span>
 
-                                <p className='explanation'>{item.explanation}</p>
+                                <p className='explanation'>{item?.explanation}</p>
                             </styles.ShoppingBasketItem>
                         )}
                     </styles.ShoppingBasketList>
@@ -44,7 +47,6 @@ const ShoppingBasket = () => {
                 </>
                 )
             }
-            
         </styles.ShoppingBasketContainer>
     )
 }

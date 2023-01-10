@@ -1,6 +1,7 @@
 import * as styles from './ProductPurchase.styles';
 
 import useShoppingBasket from '../../../hooks/useShoppingBasket';
+import Loading from '../../shared/Loading';
 
 interface Props {
   onClickPurchaseButton: () => void;
@@ -9,9 +10,11 @@ interface Props {
 const ProductPurchase = ({ 
   onClickPurchaseButton
 }: Props) => {
-  const { shoppingBasket } = useShoppingBasket();
-  
+  const { shoppingBasket, isLoading } = useShoppingBasket();
+
   const purchaseAmount = shoppingBasket.reduce((prev, cur) => prev + cur.price, 0);
+
+  if (isLoading) return <Loading />
 
   return (
     <>

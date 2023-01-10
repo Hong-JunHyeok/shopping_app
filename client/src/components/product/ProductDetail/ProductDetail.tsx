@@ -23,7 +23,7 @@ const ProductDetail = ({ productId }: Props) => {
 
   const handleShoppingBasketAdd = () => {
     if (product) {
-      addShoppingBasket(product);
+      addShoppingBasket(product.id);
     }
 
     setIsModalOpen(true);
@@ -71,7 +71,7 @@ const ProductDetail = ({ productId }: Props) => {
           </styles.ShoppingBasketAddButton>
         </div>
       </styles.ProductDetailContainer>
-        
+
       {isModalOpen && 
         <Confirm
           title="알림"
